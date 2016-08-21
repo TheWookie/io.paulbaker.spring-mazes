@@ -12,11 +12,11 @@ import java.util.function.Consumer;
  */
 @ToString
 @EqualsAndHashCode
-public class Grid implements PreparableGrid {
+public class CartesianGrid implements PreparableGrid {
     private int rows, columns;
     private Cell[][] cells;
 
-    public Grid(int rows, int columns) {
+    public CartesianGrid(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
         prepareGrid();
@@ -132,10 +132,6 @@ public class Grid implements PreparableGrid {
      */
     @Override
     public void forEach(Consumer<? super Cell> action) {
-        for (Cell[] row : cells) {
-            for (Cell cell : row) {
-                action.accept(cell);
-            }
-        }
+        iterator().forEachRemaining(action);
     }
 }
