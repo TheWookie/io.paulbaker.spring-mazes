@@ -1,5 +1,6 @@
-package io.paulbaker.springmazes;
+package io.paulbaker.springmazes.structures;
 
+import io.paulbaker.springmazes.algorithms.CellAlgorithms;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,7 +26,10 @@ public class MazeController {
     @RequestMapping(method = RequestMethod.GET, path = "/maze", params = {"rows", "columns"})
     @ResponseBody
     public String simpleMaze(@RequestParam(name = "rows") int rows, @RequestParam(name = "columns") int columns) {
-        CartesianGrid requestedMaze = new CartesianGrid(rows, columns);
+        SimpleCartesianGrid requestedMaze = new SimpleCartesianGrid(rows, columns);
+
+        requestedMaze.forEach(CellAlgorithms.BINARY_TREE);
+
         return requestedMaze.toDisplayString();
     }
 }
