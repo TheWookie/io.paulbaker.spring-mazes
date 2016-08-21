@@ -10,15 +10,15 @@ import java.util.Set;
 /**
  * Created by paulbaker on 8/21/16.
  */
-public class SimpleCartesianCell implements CartesianCell {
+public class BasicCartesianCell implements CartesianCell {
     @Getter
     private int row, column;
     @Setter
     @Getter
-    private SimpleCartesianCell north, east, south, west;
+    private BasicCartesianCell north, east, south, west;
     private Set<LinkableCell> links;
 
-    public SimpleCartesianCell(int row, int column) {
+    public BasicCartesianCell(int row, int column) {
         this.row = row;
         this.column = column;
         links = new HashSet<>();
@@ -55,7 +55,7 @@ public class SimpleCartesianCell implements CartesianCell {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        SimpleCartesianCell that = (SimpleCartesianCell) o;
+        BasicCartesianCell that = (BasicCartesianCell) o;
 
         return row == that.row && column == that.column;
     }

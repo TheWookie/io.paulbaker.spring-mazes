@@ -13,14 +13,14 @@ import java.util.function.Consumer;
  */
 @ToString
 @EqualsAndHashCode
-public class SimpleCartesianGrid implements CartesianGrid {
+public class BasicCartesianGrid implements CartesianGrid {
 
     @Getter
     private int rows, columns;
-    private SimpleCartesianCell[][] cells;
+    private BasicCartesianCell[][] cells;
     private Random random;
 
-    public SimpleCartesianGrid(int rows, int columns) {
+    public BasicCartesianGrid(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
         random = new Random();
@@ -30,10 +30,10 @@ public class SimpleCartesianGrid implements CartesianGrid {
 
     @Override
     public void prepareGrid() {
-        cells = new SimpleCartesianCell[rows][columns];
+        cells = new BasicCartesianCell[rows][columns];
         for (int row = 0; row < rows; row++) {
             for (int column = 0; column < columns; column++) {
-                cells[row][column] = new SimpleCartesianCell(row, column);
+                cells[row][column] = new BasicCartesianCell(row, column);
             }
         }
     }
@@ -51,7 +51,7 @@ public class SimpleCartesianGrid implements CartesianGrid {
     }
 
     @Override
-    public SimpleCartesianCell getCell(int row, int column) {
+    public BasicCartesianCell getCell(int row, int column) {
         if (row < 0 || column < 0)
             return null;
         if (row >= rows || column >= columns)
@@ -60,7 +60,7 @@ public class SimpleCartesianGrid implements CartesianGrid {
     }
 
     @Override
-    public SimpleCartesianCell getRandomCell() {
+    public BasicCartesianCell getRandomCell() {
         int row = random.nextInt(getRows());
         int column = random.nextInt(getColumns());
         return getCell(row, column);
@@ -79,7 +79,7 @@ public class SimpleCartesianGrid implements CartesianGrid {
             StringBuilder mid = new StringBuilder();
             StringBuilder bot = new StringBuilder();
             for (int j = 0; j < getColumns(); j++) {
-                SimpleCartesianCell currentCell = getCell(i, j);
+                BasicCartesianCell currentCell = getCell(i, j);
                 if (i == 0) {
                     if (j == 0)
                         top.append('+');
@@ -124,7 +124,7 @@ public class SimpleCartesianGrid implements CartesianGrid {
         return sb.toString();
     }
 
-    private class CellIterator implements Iterator<SimpleCartesianCell> {
+    private class CellIterator implements Iterator<BasicCartesianCell> {
 
         private int rows, columns, index;
 
@@ -140,7 +140,7 @@ public class SimpleCartesianGrid implements CartesianGrid {
         }
 
         @Override
-        public SimpleCartesianCell next() {
+        public BasicCartesianCell next() {
             int row = index / columns;
             int column = index % columns;
             index++;
@@ -149,17 +149,17 @@ public class SimpleCartesianGrid implements CartesianGrid {
     }
 
     @Override
-    public Iterator<SimpleCartesianCell> iterator() {
+    public Iterator<BasicCartesianCell> iterator() {
         return new CellIterator(rows, columns);
     }
 
     @Override
-    public void forEach(Consumer<? super SimpleCartesianCell> action) {
+    public void forEach(Consumer<? super BasicCartesianCell> action) {
         iterator().forEachRemaining(action);
     }
 
-    public void forEachRow(Consumer<? super SimpleCartesianCell[]> action) {
-        for (SimpleCartesianCell[] row : cells) {
+    public void forEachRow(Consumer<? super BasicCartesianCell[]> action) {
+        for (BasicCartesianCell[] row : cells) {
             action.accept(row);
         }
     }

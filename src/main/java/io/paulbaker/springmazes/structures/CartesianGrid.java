@@ -5,13 +5,13 @@ import java.util.function.Consumer;
 /**
  * Created by paulbaker on 8/21/16.
  */
-public interface CartesianGrid extends Iterable<SimpleCartesianCell> {
+public interface CartesianGrid extends Iterable<BasicCartesianCell> {
 
     void prepareGrid();
 
     void configureGrid();
 
-    default void configureGrid(Consumer<SimpleCartesianCell> action) {
+    default void configureGrid(Consumer<BasicCartesianCell> action) {
         iterator().forEachRemaining(action);
     }
 
@@ -23,9 +23,9 @@ public interface CartesianGrid extends Iterable<SimpleCartesianCell> {
         return getRows() * getColumns();
     }
 
-    SimpleCartesianCell getCell(int row, int column);
+    BasicCartesianCell getCell(int row, int column);
 
-    SimpleCartesianCell getRandomCell();
+    BasicCartesianCell getRandomCell();
 
     String toDisplayString();
 }

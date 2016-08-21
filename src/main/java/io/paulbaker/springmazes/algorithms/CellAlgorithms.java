@@ -1,7 +1,7 @@
 package io.paulbaker.springmazes.algorithms;
 
+import io.paulbaker.springmazes.structures.BasicCartesianCell;
 import io.paulbaker.springmazes.structures.CartesianCell;
-import io.paulbaker.springmazes.structures.SimpleCartesianCell;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +17,8 @@ public class CellAlgorithms {
 
     public static Consumer<CartesianCell> UNLINK_ALL = cell -> cell.getLinks().forEach(adjCell -> adjCell.unlink(cell));
 
-    public static Consumer<SimpleCartesianCell> BINARY_TREE = cell -> {
-        List<SimpleCartesianCell> neighbors = new ArrayList<>();
+    public static Consumer<BasicCartesianCell> BINARY_TREE = cell -> {
+        List<BasicCartesianCell> neighbors = new ArrayList<>();
         if (cell.hasNorth())
             neighbors.add(cell.getNorth());
         if (cell.hasEast())
@@ -26,12 +26,12 @@ public class CellAlgorithms {
 
         if (!neighbors.isEmpty()) {
             int index = RANDOM.nextInt(neighbors.size());
-            SimpleCartesianCell chosenNeighbor = neighbors.get(index);
+            BasicCartesianCell chosenNeighbor = neighbors.get(index);
             cell.link(chosenNeighbor);
         }
     };
 
-    public static Consumer<SimpleCartesianCell> SIDEWINDER = cell -> {
+    public static Consumer<BasicCartesianCell> SIDEWINDER = cell -> {
 
     };
 
