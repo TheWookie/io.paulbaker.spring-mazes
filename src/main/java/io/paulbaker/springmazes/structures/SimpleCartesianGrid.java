@@ -136,7 +136,7 @@ public class SimpleCartesianGrid implements CartesianGrid {
 
         @Override
         public boolean hasNext() {
-            return index < (rows * columns) - 1;
+            return index < (rows * columns);
         }
 
         @Override

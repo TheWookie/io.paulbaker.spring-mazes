@@ -57,9 +57,7 @@ public class SimpleCartesianCell implements CartesianCell {
 
         SimpleCartesianCell that = (SimpleCartesianCell) o;
 
-        if (row != that.row) return false;
-        return column == that.column;
-
+        return row == that.row && column == that.column;
     }
 
     @Override

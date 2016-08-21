@@ -19,18 +19,20 @@ public class CellAlgorithms {
 
     public static Consumer<SimpleCartesianCell> BINARY_TREE = cell -> {
         List<SimpleCartesianCell> neighbors = new ArrayList<>();
-        SimpleCartesianCell north = cell.getNorth();
-        SimpleCartesianCell east = cell.getEast();
-        if (north != null)
-            neighbors.add(north);
-        if (east != null)
-            neighbors.add(east);
+        if (cell.hasNorth())
+            neighbors.add(cell.getNorth());
+        if (cell.hasEast())
+            neighbors.add(cell.getEast());
 
         if (!neighbors.isEmpty()) {
             int index = RANDOM.nextInt(neighbors.size());
             SimpleCartesianCell chosenNeighbor = neighbors.get(index);
             cell.link(chosenNeighbor);
         }
+    };
+
+    public static Consumer<SimpleCartesianCell> SIDEWINDER = cell -> {
+
     };
 
     private CellAlgorithms() {
