@@ -28,7 +28,7 @@ public class MazeController {
 
     private Random random = new Random();
 
-    @RequestMapping(method = RequestMethod.GET, path = "/maze")
+    @RequestMapping(method = RequestMethod.GET, path = "/basic")
     @ResponseBody
     public String simpleMaze() {
         return simpleMaze(random.nextInt(50) + 1, random.nextInt(50) + 1);
@@ -45,8 +45,9 @@ public class MazeController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/image")
+    @ResponseBody
     public ResponseEntity<byte[]> image() throws IOException, InterruptedException {
-        return image(4, 6);
+        return image(random.nextInt(50) + 1, random.nextInt(50) + 1);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/image", params = {"rows", "columns"})
@@ -64,8 +65,10 @@ public class MazeController {
             }
             ByteArrayOutputStream bao = new ByteArrayOutputStream();
             ImageIO.write(bufferedImage, "png", bao);
+//            return bao.toByteArray();
             final HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.IMAGE_PNG);
+//            headers.add("Content-Type", "image/png");
             return new ResponseEntity<>(bao.toByteArray(), headers, HttpStatus.CREATED);
 
         } catch (Throwable e) {

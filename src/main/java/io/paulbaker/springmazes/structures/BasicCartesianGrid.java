@@ -129,52 +129,80 @@ public class BasicCartesianGrid implements CartesianGrid {
 
     @Override
     public BufferedImage toDisplayImage() {
-        final int cellEdgeSize = 32;
+        final int cellSize = (int) (32 * (random.nextDouble() + 1));
 
-        BufferedImage buffer = new BufferedImage(getColumns() * cellEdgeSize, getRows() * cellEdgeSize, BufferedImage.TYPE_INT_RGB);
-        System.out.println("Width: " + buffer.getWidth() + ", Height: " + buffer.getHeight());
 
-        Color white = new Color(255, 255, 255);
-        for (int i = 0; i < buffer.getWidth(); i++) {
-            for (int j = 0; j < buffer.getHeight(); j++) {
-                buffer.setRGB(i, j, white.getRGB());
+        int rows = getRows();
+        int columns = getColumns();
+
+        BufferedImage buffer = new BufferedImage(columns * cellSize, rows * cellSize, BufferedImage.TYPE_INT_RGB);
+        Graphics graphics = buffer.createGraphics();
+
+        graphics.setColor(new Color(180, 180, 255));
+        graphics.fillRect(0, 0, buffer.getWidth() - 1, buffer.getHeight() - 1);
+        graphics.setColor(new Color(40, 40, 90));
+        graphics.drawRect(0, 0, buffer.getWidth() - 1, buffer.getHeight() - 1);
+
+        forEach(cell -> {
+            int x = cell.getColumn() * cellSize;
+            int y = cell.getRow() * cellSize;
+            if (cell.hasNorth() && !cell.isLinked(cell.getNorth())) {
+                graphics.drawLine(x, y, x + cellSize, y);
             }
-        }
-
-        Color black = new Color(0, 0, 0);
-        for (int row = 0; row < getRows(); row++) {
-            for (int column = 0; column < getColumns(); column++) {
-                System.out.println("row:" + row + ", col:" + column);
-                BasicCartesianCell cell = getCell(row, column);
-                int xOffset = cellEdgeSize * row;
-                int yOffset = cellEdgeSize * column;
-                if (!cell.hasNorth() || !cell.isLinked(cell.getNorth())) {
-                    System.out.println("Walling north");
-                    for (int i = 0; i < cellEdgeSize; i++) {
-                        buffer.setRGB(xOffset + i, yOffset, black.getRGB());
-                    }
-                }
-                if (!cell.hasWest() || !cell.isLinked(cell.getWest())) {
-                    System.out.println("Walling west");
-                    for (int i = 0; i < cellEdgeSize; i++) {
-                        buffer.setRGB(xOffset, yOffset + i, black.getRGB());
-                    }
-                }
-
-                if (!cell.hasSouth() || !cell.isLinked(cell.getSouth())) {
-                    System.out.println("Walling south");
-                    for (int i = 0; i < cellEdgeSize - 1; i++) {
-                        buffer.setRGB(xOffset + i, yOffset + cellEdgeSize - 1, black.getRGB());
-                    }
-                }
-                if (!cell.hasEast() || !cell.isLinked(cell.getEast())) {
-                    System.out.println("Walling east");
-                    for (int i = 0; i < cellEdgeSize - 1; i++) {
-                        buffer.setRGB(xOffset + cellEdgeSize - 1, yOffset + i, black.getRGB());
-                    }
-                }
+            if (cell.hasEast() && !cell.isLinked(cell.getEast())) {
+                graphics.drawLine(x + cellSize - 1, y, x + cellSize - 1, y + cellSize);
             }
-        }
+            if (cell.hasSouth() && !cell.isLinked(cell.getSouth())) {
+                graphics.drawLine(x, y + cellSize - 1, x + cellSize, y + cellSize - 1);
+            }
+            if (cell.hasWest() && !cell.isLinked(cell.getWest())) {
+                graphics.drawLine(x, y, x, y + cellSize);
+            }
+        });
+
+//        System.out.println("Width: " + buffer.getWidth() + ", Height: " + buffer.getHeight());
+//
+//        Color white = new Color(255, 255, 255);
+//        for (int i = 0; i < buffer.getWidth(); i++) {
+//            for (int j = 0; j < buffer.getHeight(); j++) {
+//                buffer.setRGB(i, j, white.getRGB());
+//            }
+//        }
+//
+//        Color black = new Color(0, 0, 0);
+//        for (int row = 0; row < getRows(); row++) {
+//            for (int column = 0; column < getColumns(); column++) {
+//                System.out.println("row:" + row + ", col:" + column);
+//                BasicCartesianCell cell = getCell(row, column);
+//                int xOffset = cellSize * row;
+//                int yOffset = cellSize * column;
+//                if (!cell.hasNorth() || !cell.isLinked(cell.getNorth())) {
+//                    System.out.println("Walling north");
+//                    for (int i = 0; i < cellSize; i++) {
+//                        buffer.setRGB(xOffset + i, yOffset, black.getRGB());
+//                    }
+//                }
+//                if (!cell.hasWest() || !cell.isLinked(cell.getWest())) {
+//                    System.out.println("Walling west");
+//                    for (int i = 0; i < cellSize; i++) {
+//                        buffer.setRGB(xOffset, yOffset + i, black.getRGB());
+//                    }
+//                }
+//
+//                if (!cell.hasSouth() || !cell.isLinked(cell.getSouth())) {
+//                    System.out.println("Walling south");
+//                    for (int i = 0; i < cellSize - 1; i++) {
+//                        buffer.setRGB(xOffset + i, yOffset + cellSize - 1, black.getRGB());
+//                    }
+//                }
+//                if (!cell.hasEast() || !cell.isLinked(cell.getEast())) {
+//                    System.out.println("Walling east");
+//                    for (int i = 0; i < cellSize - 1; i++) {
+//                        buffer.setRGB(xOffset + cellSize - 1, yOffset + i, black.getRGB());
+//                    }
+//                }
+//            }
+//        }
 
         return buffer;
     }
