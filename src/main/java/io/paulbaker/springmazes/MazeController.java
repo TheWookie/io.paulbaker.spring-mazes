@@ -1,6 +1,7 @@
-package io.paulbaker.springmazes.structures;
+package io.paulbaker.springmazes;
 
 import io.paulbaker.springmazes.algorithms.CellAlgorithms;
+import io.paulbaker.springmazes.structures.SimpleCartesianGrid;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
