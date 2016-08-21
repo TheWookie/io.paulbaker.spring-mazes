@@ -1,5 +1,6 @@
 package io.paulbaker.springmazes.structures;
 
+import java.awt.image.BufferedImage;
 import java.util.function.Consumer;
 
 /**
@@ -28,4 +29,6 @@ public interface CartesianGrid extends Iterable<BasicCartesianCell> {
     BasicCartesianCell getRandomCell();
 
     String toDisplayString();
+
+    BufferedImage toDisplayImage();
 }

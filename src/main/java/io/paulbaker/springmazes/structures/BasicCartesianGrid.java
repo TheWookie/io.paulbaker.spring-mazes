@@ -4,6 +4,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.function.Consumer;
@@ -23,6 +25,7 @@ public class BasicCartesianGrid implements CartesianGrid {
     public BasicCartesianGrid(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
+        System.out.println("rows: " + rows + ", columns: " + columns);
         random = new Random();
         prepareGrid();
         configureGrid();
@@ -122,6 +125,58 @@ public class BasicCartesianGrid implements CartesianGrid {
                 sb.append(bot).append('\n');
         }
         return sb.toString();
+    }
+
+    @Override
+    public BufferedImage toDisplayImage() {
+        final int cellEdgeSize = 32;
+
+        BufferedImage buffer = new BufferedImage(getColumns() * cellEdgeSize, getRows() * cellEdgeSize, BufferedImage.TYPE_INT_RGB);
+        System.out.println("Width: " + buffer.getWidth() + ", Height: " + buffer.getHeight());
+
+        Color white = new Color(255, 255, 255);
+        for (int i = 0; i < buffer.getWidth(); i++) {
+            for (int j = 0; j < buffer.getHeight(); j++) {
+                buffer.setRGB(i, j, white.getRGB());
+            }
+        }
+
+        Color black = new Color(0, 0, 0);
+        for (int row = 0; row < getRows(); row++) {
+            for (int column = 0; column < getColumns(); column++) {
+                System.out.println("row:" + row + ", col:" + column);
+                BasicCartesianCell cell = getCell(row, column);
+                int xOffset = cellEdgeSize * row;
+                int yOffset = cellEdgeSize * column;
+                if (!cell.hasNorth() || !cell.isLinked(cell.getNorth())) {
+                    System.out.println("Walling north");
+                    for (int i = 0; i < cellEdgeSize; i++) {
+                        buffer.setRGB(xOffset + i, yOffset, black.getRGB());
+                    }
+                }
+                if (!cell.hasWest() || !cell.isLinked(cell.getWest())) {
+                    System.out.println("Walling west");
+                    for (int i = 0; i < cellEdgeSize; i++) {
+                        buffer.setRGB(xOffset, yOffset + i, black.getRGB());
+                    }
+                }
+
+                if (!cell.hasSouth() || !cell.isLinked(cell.getSouth())) {
+                    System.out.println("Walling south");
+                    for (int i = 0; i < cellEdgeSize - 1; i++) {
+                        buffer.setRGB(xOffset + i, yOffset + cellEdgeSize - 1, black.getRGB());
+                    }
+                }
+                if (!cell.hasEast() || !cell.isLinked(cell.getEast())) {
+                    System.out.println("Walling east");
+                    for (int i = 0; i < cellEdgeSize - 1; i++) {
+                        buffer.setRGB(xOffset + cellEdgeSize - 1, yOffset + i, black.getRGB());
+                    }
+                }
+            }
+        }
+
+        return buffer;
     }
 
     private class CellIterator implements Iterator<BasicCartesianCell> {
