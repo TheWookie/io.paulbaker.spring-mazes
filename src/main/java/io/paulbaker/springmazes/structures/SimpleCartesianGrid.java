@@ -88,8 +88,7 @@ public class SimpleCartesianGrid implements CartesianGrid {
                     } else {
                         top.append(takenHorizontal);
                     }
-                    if (j != 0)
-                        top.append('+');
+                    top.append('+');
                 }
 
                 if (j == 0) {
@@ -100,12 +99,10 @@ public class SimpleCartesianGrid implements CartesianGrid {
                     }
                 }
                 mid.append(emptyHorizontal);
-                if (j != 0) {
-                    if (currentCell.isLinked(currentCell.getEast())) {
-                        mid.append(emptyVertical);
-                    } else {
-                        mid.append(takenVertical);
-                    }
+                if (currentCell.isLinked(currentCell.getEast())) {
+                    mid.append(emptyVertical);
+                } else {
+                    mid.append(takenVertical);
                 }
 
                 if (j == 0)
@@ -115,8 +112,7 @@ public class SimpleCartesianGrid implements CartesianGrid {
                 } else {
                     bot.append(takenHorizontal);
                 }
-                if (j != 0)
-                    bot.append('+');
+                bot.append('+');
             }
             if (top.length() != 0)
                 sb.append(top).append('\n');
