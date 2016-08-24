@@ -16,24 +16,25 @@ import java.io.IOException;
  */
 public abstract class AbstractCartesianMazeController {
 
-    private final MazeSupplier mazeSupplier;
+    private final BasicCartesianGridSupplier basicCartesianGridSupplier;
 
-    public AbstractCartesianMazeController(MazeSupplier mazeSupplier) {
-        this.mazeSupplier = mazeSupplier;
+    public AbstractCartesianMazeController(BasicCartesianGridSupplier basicCartesianGridSupplier) {
+        this.basicCartesianGridSupplier = basicCartesianGridSupplier;
     }
 
     @RequestMapping(params = {"format=text"}, produces = MediaType.TEXT_PLAIN_VALUE)
     @ResponseBody
     public String mazeText(@RequestParam(name = "rows", defaultValue = "10", required = false) int rows,
                            @RequestParam(name = "columns", defaultValue = "10", required = false) int columns) throws IOException {
-        return mazeSupplier.Supply(rows, columns).toDisplayString();
+        return basicCartesianGridSupplier.Supply(rows, columns).toDisplayString();
     }
 
     @RequestMapping(params = {"format=image"}, produces = MediaType.IMAGE_PNG_VALUE)
     @ResponseBody
     public BufferedImage mazeImage(@RequestParam(name = "rows", defaultValue = "10", required = false) int rows,
-                                   @RequestParam(name = "columns", defaultValue = "10", required = false) int columns) throws IOException {
-        return mazeSupplier.Supply(rows, columns).toDisplayImage();
+                                   @RequestParam(name = "columns", defaultValue = "10", required = false) int columns,
+                                   @RequestParam(name = "size", defaultValue = "32", required = false) int cellSize) throws IOException {
+        return basicCartesianGridSupplier.Supply(rows, columns).toDisplayImage(cellSize);
     }
 
     @RequestMapping

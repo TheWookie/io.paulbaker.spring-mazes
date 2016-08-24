@@ -129,10 +129,7 @@ public class BasicCartesianGrid implements CartesianGrid {
         return sb.toString();
     }
 
-    @Override
-    public BufferedImage toDisplayImage() {
-//        final int cellSize = (int) (32 * (random.nextDouble() + 1));
-        final int cellSize = 32;
+    public BufferedImage toDisplayImage(final int cellSize) {
 
         int rows = getRows();
         int columns = getColumns();
@@ -163,6 +160,11 @@ public class BasicCartesianGrid implements CartesianGrid {
         });
 
         return buffer;
+    }
+
+    @Override
+    public BufferedImage toDisplayImage() {
+        return toDisplayImage(32);
     }
 
     private class CellIterator implements Iterator<BasicCartesianCell> {
