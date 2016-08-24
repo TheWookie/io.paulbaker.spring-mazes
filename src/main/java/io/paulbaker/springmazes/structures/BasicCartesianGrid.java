@@ -3,6 +3,7 @@ package io.paulbaker.springmazes.structures;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+import lombok.extern.log4j.Log4j;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -15,6 +16,7 @@ import java.util.function.Consumer;
  */
 @ToString
 @EqualsAndHashCode
+@Log4j
 public class BasicCartesianGrid implements CartesianGrid {
 
     @Getter
@@ -25,7 +27,7 @@ public class BasicCartesianGrid implements CartesianGrid {
     public BasicCartesianGrid(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
-        System.out.println("rows: " + rows + ", columns: " + columns);
+        log.debug("rows: " + rows + ", columns: " + columns);
         random = new Random();
         prepareGrid();
         configureGrid();
