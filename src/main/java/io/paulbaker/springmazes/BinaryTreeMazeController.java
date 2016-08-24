@@ -20,7 +20,7 @@ import java.io.IOException;
  * Created by paulbaker on 8/21/16.
  */
 @Controller
-@RequestMapping(path = "/maze/binarytree", method = RequestMethod.GET)
+@RequestMapping(path = "/maze/binary-tree", method = RequestMethod.GET)
 @Log4j
 public class BinaryTreeMazeController {
 
