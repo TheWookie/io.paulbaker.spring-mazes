@@ -31,8 +31,23 @@ public class CellAlgorithms {
         }
     };
 
-    public static Consumer<BasicCartesianCell> SIDEWINDER = cell -> {
-
+    public static Consumer<BasicCartesianCell[]> SIDEWINDER = row -> {
+        List<BasicCartesianCell> run = new ArrayList<>();
+        for (BasicCartesianCell cell : row) {
+            run.add(cell);
+            boolean atEastBorder = !cell.hasEast();
+            boolean atNorthBorder = !cell.hasNorth();
+            boolean shouldCloseOut = atEastBorder || (!atNorthBorder && RANDOM.nextInt(2) == 0);
+            if (shouldCloseOut) {
+                BasicCartesianCell member = run.get(RANDOM.nextInt(run.size()));
+                if (member.hasNorth()) {
+                    member.link(member.getNorth());
+                }
+                run.clear();
+            } else {
+                cell.link(cell.getEast());
+            }
+        }
     };
 
     private CellAlgorithms() {
