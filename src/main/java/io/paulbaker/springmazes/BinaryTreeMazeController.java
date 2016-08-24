@@ -20,9 +20,9 @@ import java.io.IOException;
  * Created by paulbaker on 8/21/16.
  */
 @Controller
-@RequestMapping(path = "/maze/basic", method = RequestMethod.GET)
+@RequestMapping(path = "/maze/binarytree", method = RequestMethod.GET)
 @Log4j
-public class BasicMazeController {
+public class BinaryTreeMazeController {
 
     @RequestMapping(params = {"format=text"}, produces = MediaType.TEXT_PLAIN_VALUE)
     @ResponseBody
@@ -37,21 +37,16 @@ public class BasicMazeController {
     @ResponseBody
     public BufferedImage simpleMazeImage(@RequestParam(name = "rows", defaultValue = "10", required = false) int rows,
                                          @RequestParam(name = "columns", defaultValue = "10", required = false) int columns) throws IOException {
-        log.debug("Starting image generation");
         BasicCartesianGrid requestedMaze = new BasicCartesianGrid(rows, columns);
         requestedMaze.forEach(CellAlgorithms.BINARY_TREE);
-        BufferedImage bufferedImage = requestedMaze.toDisplayImage();
-        log.debug("Returning from image generation");
-        return bufferedImage;
+        return requestedMaze.toDisplayImage();
     }
 
     @RequestMapping
     @ResponseBody
-    public ResponseEntity<String> simpleMazeInvalid(@RequestParam(name = "rows", defaultValue = "10", required = false) int rows,
-                                                    @RequestParam(name = "columns", defaultValue = "10", required = false) int columns,
-                                                    @RequestParam(name = "format") String format) throws IOException {
+    public ResponseEntity<String> simpleMazeInvalid(@RequestParam(name = "format") String invalidFormat) throws IOException {
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.TEXT_PLAIN);
-        return new ResponseEntity<>("Invalid format: " + format, headers, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Invalid format: " + invalidFormat, headers, HttpStatus.BAD_REQUEST);
     }
 }
