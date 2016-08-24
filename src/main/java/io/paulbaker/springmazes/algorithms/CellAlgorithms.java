@@ -50,6 +50,9 @@ public class CellAlgorithms {
         }
     };
 
+    /**
+     * Nope. This is a static library.
+     */
     private CellAlgorithms() {
     }
 }
